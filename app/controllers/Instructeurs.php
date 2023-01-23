@@ -53,22 +53,21 @@ class Instructeurs extends Controller
 			for ($i = 0; $i < $instructeur->AantalSterren; $i++) {
 				$sterren .= "★";
 			}
-			$naam = $instructeur->Tussenvoegsel ? `$instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam` : `$instructeur->Voornaam $instructeur->Achternaam`;
+			$naam = $instructeur->Tussenvoegsel ? "$instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam" : "$instructeur->Voornaam $instructeur->Achternaam";
 			$datumInDienst = $instructeur->DatumInDienst;
 
 			// haalt de gegevens uit de database via the model
-			$record = $this->instructeurModel->getVoertuigenByInstructeurId();
+			$record = $this->instructeurModel->getVoertuigenByInstructeurId($id);
 			if ($record) {
 				foreach ($record as $value) {
 
 					$rows .= "<tr>
-										<td>$value->Voornaam</td>
-										<td>$value->Tussenvoegsel</td>
-										<td>$value->Achternaam</td>
-										<td>$value->Mobiel</td>
-										<td>$value->DatumInDienst</td>
-										<td>$sterren</td>
-										<td><a href='" . URLROOT . "/instructeurs/voertuigen/$value->Id'><img src='" . URLROOT . "/img/book.png' alt='book'></a></td>
+										<td>$value->TypeVoertuig</td>
+										<td>$value->Type</td>
+										<td>$value->Kenteken</td>
+										<td>$value->Bouwjaar</td>
+										<td>$value->Brandstof</td>
+										<td>$value->RijbewijsCategorie</td>
 								</tr>";
 				}
 			}
