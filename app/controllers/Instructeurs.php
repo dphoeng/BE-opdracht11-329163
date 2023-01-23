@@ -70,6 +70,8 @@ class Instructeurs extends Controller
 										<td>$value->RijbewijsCategorie</td>
 								</tr>";
 				}
+			} else {
+				header("Refresh:3; url=" . URLROOT . "/instructeurs/index");
 			}
 		} else {
 			header("Location: " . URLROOT . "/instructeurs/index");
