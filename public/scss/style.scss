@@ -1,0 +1,24 @@
+form.onderwerp-form {
+	display: flex;
+	flex-direction: column;
+	max-width: 25%;
+	row-gap: 0.3rem;
+}
+
+body {
+	font-family: verdana;	
+}
+
+table {
+	border: 2px solid black;
+	
+	tr, td {
+		border: 1px solid black;
+	}
+
+	tbody tr:nth-child(odd) {
+		background-color: rgb(235, 235, 235);
+	}
+
+}
+
