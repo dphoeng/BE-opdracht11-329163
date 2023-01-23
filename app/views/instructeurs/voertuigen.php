@@ -10,19 +10,25 @@ $data = $data ?? [];
 	<h2>Naam: <?= $data['naam']; ?></h2>
 	<h2>Datum in dienst: <?= $data['datumInDienst']; ?></h2>
 	<h2>Aantal sterren: <?= $data['sterren']; ?></h2>
-	<table>
-		<thead>
-			<th>Type Voertuig</th>
-			<th>Type</th>
-			<th>Kenteken</th>
-			<th>Bouwjaar</th>
-			<th>Brandstof</th>
-			<th>Rijbewijscategorie</th>
-		</thead>
-		<tbody>
-			<?= $data["rows"]; ?>
-		</tbody>
-	</table>
+	<?php if ($data['rows'] != '') {
+		echo "
+			<table>
+			<thead>
+				<th>Type Voertuig</th>
+				<th>Type</th>
+				<th>Kenteken</th>
+				<th>Bouwjaar</th>
+				<th>Brandstof</th>
+				<th>Rijbewijscategorie</th>
+			</thead>
+			<tbody>
+				{$data['rows']}
+			</tbody>
+		</table>";
+	} else {
+		echo "<h3>Er zijn op dit moment nog geen voertuigen toegewezen aan deze instructeur</h3>";
+	} ?>
+
 </body>
 
 <?php

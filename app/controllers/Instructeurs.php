@@ -71,6 +71,8 @@ class Instructeurs extends Controller
 								</tr>";
 				}
 			}
+		} else {
+			header("Location: " . URLROOT . "/instructeurs/index");
 		}
 
 		// data die wordt doorgestuurd naar de view
