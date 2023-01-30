@@ -114,7 +114,7 @@ class Instructeurs extends Controller
 										<td>$value->Bouwjaar</td>
 										<td>$value->Brandstof</td>
 										<td>$value->RijbewijsCategorie</td>
-										<td>+</td>
+										<td><a href='" . URLROOT . "/instructeurs/add/$id/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
 								</tr>";
 				}
 			} else {
