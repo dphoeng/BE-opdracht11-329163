@@ -79,8 +79,12 @@ class Instructeurs extends Controller
 
 		// data die wordt doorgestuurd naar de view
 		$data = [
-			"rows" => $rows, "aantal" => count($record), "naam" => $naam, "sterren" => $sterren, "datumInDienst" => $datumInDienst
+			"rows" => $rows, "aantal" => count($record), "naam" => $naam, "sterren" => $sterren, "datumInDienst" => $datumInDienst, "id" => $id
 		];
 		$this->view("instructeurs/voertuigen", $data);
+	}
+
+	public function toevoegen($id = null)
+	{
 	}
 }
