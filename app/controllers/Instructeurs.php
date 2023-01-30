@@ -86,6 +86,48 @@ class Instructeurs extends Controller
 
 	public function toevoegen($id = null)
 	{
-		$voertuigen = $this->instructeurModel->getAvailableVoertuigen();
+		$instructeur = $this->instructeurModel->getInstructeurById($id);
+
+		$rows = '';
+		$sterren = "";
+		$naam = "";
+		$datumInDienst = "";
+		$error = "";
+
+		if ($instructeur) {
+			for ($i = 0; $i < $instructeur->AantalSterren; $i++) {
+				$sterren .= "★";
+			}
+			$naam = $instructeur->Tussenvoegsel ? "$instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam" : "$instructeur->Voornaam $instructeur->Achternaam";
+			$datumInDienst = $instructeur->DatumInDienst;
+
+			$voertuigen = $this->instructeurModel->getAvailableVoertuigen();
+			var_dump($voertuigen);
+			if ($voertuigen) {
+				foreach ($voertuigen as $value) {
+
+					$rows .= "<tr>
+										<td>$value->TypeVoertuig</td>
+										<td>$value->Type</td>
+										<td>$value->Kenteken</td>
+										<td>$value->Bouwjaar</td>
+										<td>$value->Brandstof</td>
+										<td>$value->RijbewijsCategorie</td>
+										<td>+</td>
+								</tr>";
+				}
+			} else {
+				$error = ;
+				header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
+			}
+		} else {
+			header("Location: " . URLROOT . "/instructeurs/index");
+		}
+
+		// data die wordt doorgestuurd naar de view
+		$data = [
+			"rows" => $rows, "naam" => $naam, "sterren" => $sterren, "datumInDienst" => $datumInDienst, "id" => $id, "error" => $error
+		];
+		$this->view("instructeurs/toevoegen", $data);
 	}
 }
