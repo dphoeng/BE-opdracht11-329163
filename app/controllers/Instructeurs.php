@@ -131,4 +131,11 @@ class Instructeurs extends Controller
 		];
 		$this->view("instructeurs/toevoegen", $data);
 	}
+
+	public function add($instructeurId = null, $voertuigId = null)
+	{
+		if ($instructeurId == null || $voertuigId == null) {
+			header("Location: " . URLROOT . "/instructeurs/index");
+		}
+	}
 }
