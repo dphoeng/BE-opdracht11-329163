@@ -35,4 +35,10 @@ class Instructeur
 		$this->db->query("CALL spGetAvailableVoertuigen()");
 		return $this->db->resultSet();
 	}
+
+	public function createVoertuigInstructeur($voertuigId, $instructeurId)
+	{
+		$this->db->query("CALL createVoertuigInstructeur($voertuigId, $instructeurId)");
+		$this->db->execute();
+	}
 }

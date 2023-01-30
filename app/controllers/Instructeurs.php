@@ -137,5 +137,6 @@ class Instructeurs extends Controller
 		if ($instructeurId == null || $voertuigId == null) {
 			header("Location: " . URLROOT . "/instructeurs/index");
 		}
+		$this->instructeurModel->createVoertuigInstructeur($voertuigId, $instructeurId);
 	}
 }
