@@ -29,4 +29,10 @@ class Instructeur
 		$this->db->bind(":id", $id, PDO::PARAM_INT);
 		return $this->db->single();
 	}
+
+	public function getAvailableVoertuigen()
+	{
+		$this->db->query("CALL spGetAvailableVoertuigen()");
+		return $this->db->resultSet();
+	}
 }

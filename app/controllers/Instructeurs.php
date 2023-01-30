@@ -86,5 +86,6 @@ class Instructeurs extends Controller
 
 	public function toevoegen($id = null)
 	{
+		$voertuigen = $this->instructeurModel->getAvailableVoertuigen();
 	}
 }
