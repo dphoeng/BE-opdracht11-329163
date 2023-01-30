@@ -27,7 +27,7 @@ $data = $data ?? [];
 			</tbody>
 		</table>";
 	} else {
-		echo "<h3>Er zijn op dit moment nog geen voertuigen toegewezen aan deze instructeur</h3>";
+		echo "<h3>{$data['error']}</h3>";
 	} ?>
 
 </body>

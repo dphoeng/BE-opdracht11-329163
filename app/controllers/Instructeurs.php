@@ -46,6 +46,7 @@ class Instructeurs extends Controller
 		$sterren = "";
 		$naam = "";
 		$datumInDienst = "";
+		$error = "";
 
 		$instructeur = $this->instructeurModel->getInstructeurById($id);
 
@@ -71,6 +72,7 @@ class Instructeurs extends Controller
 								</tr>";
 				}
 			} else {
+				$error = "Er zijn op dit moment nog geen voertuigen toegewezen aan deze instructeur";
 				header("Refresh:3; url=" . URLROOT . "/instructeurs/index");
 			}
 		} else {
@@ -79,7 +81,7 @@ class Instructeurs extends Controller
 
 		// data die wordt doorgestuurd naar de view
 		$data = [
-			"rows" => $rows, "aantal" => count($record), "naam" => $naam, "sterren" => $sterren, "datumInDienst" => $datumInDienst, "id" => $id
+			"rows" => $rows, "aantal" => count($record), "naam" => $naam, "sterren" => $sterren, "datumInDienst" => $datumInDienst, "id" => $id, "error" => $error
 		];
 		$this->view("instructeurs/voertuigen", $data);
 	}
@@ -102,7 +104,6 @@ class Instructeurs extends Controller
 			$datumInDienst = $instructeur->DatumInDienst;
 
 			$voertuigen = $this->instructeurModel->getAvailableVoertuigen();
-			var_dump($voertuigen);
 			if ($voertuigen) {
 				foreach ($voertuigen as $value) {
 
@@ -117,7 +118,7 @@ class Instructeurs extends Controller
 								</tr>";
 				}
 			} else {
-				$error = ;
+				$error = "Er zijn geen voertuigen meer over om toe te voegen";
 				header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
 			}
 		} else {
