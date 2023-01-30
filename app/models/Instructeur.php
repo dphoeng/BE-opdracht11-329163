@@ -38,7 +38,7 @@ class Instructeur
 
 	public function createVoertuigInstructeur($voertuigId, $instructeurId)
 	{
-		$this->db->query("CALL createVoertuigInstructeur($voertuigId, $instructeurId)");
+		$this->db->query("CALL spCreateVoertuigInstructeur($voertuigId, $instructeurId)");
 		$this->db->execute();
 	}
 }

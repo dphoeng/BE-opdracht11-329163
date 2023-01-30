@@ -73,7 +73,7 @@ class Instructeurs extends Controller
 				}
 			} else {
 				$error = "Er zijn op dit moment nog geen voertuigen toegewezen aan deze instructeur";
-				header("Refresh:3; url=" . URLROOT . "/instructeurs/index");
+				// header("Refresh:3; url=" . URLROOT . "/instructeurs/index");
 			}
 		} else {
 			header("Location: " . URLROOT . "/instructeurs/index");
@@ -138,5 +138,6 @@ class Instructeurs extends Controller
 			header("Location: " . URLROOT . "/instructeurs/index");
 		}
 		$this->instructeurModel->createVoertuigInstructeur($voertuigId, $instructeurId);
+		header("Location: " . URLROOT . "/instructeurs/voertuigen/$instructeurId");
 	}
 }
