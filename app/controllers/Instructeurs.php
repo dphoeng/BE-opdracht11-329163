@@ -145,10 +145,9 @@ class Instructeurs extends Controller
 	public function edit($id = null)
 	{
 		$instructeurs = $this->instructeurModel->getInstructeurs();
+		$voertuig = $this->instructeurModel->getVoertuigById($id);
 
-
-
-		$data = ["instructeurs" => $instructeurs];
+		$data = ["instructeurs" => $instructeurs, "voertuig" => $voertuig];
 
 		$this->view("instructeurs/edit", $data);
 	}

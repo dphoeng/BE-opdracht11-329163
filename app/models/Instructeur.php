@@ -41,4 +41,11 @@ class Instructeur
 		$this->db->query("CALL spCreateVoertuigInstructeur($voertuigId, $instructeurId)");
 		$this->db->execute();
 	}
+
+	public function getVoertuigenById($id)
+	{
+		$this->db->query("SELECT * FROM `Voertuig` voe INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId WHERE voe.Id = :id");
+		$this->db->bind(":id", $id, PDO::PARAM_INT);
+		return $this->db->single();
+	}
 }
