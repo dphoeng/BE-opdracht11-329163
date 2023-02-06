@@ -21,6 +21,7 @@ $data = $data ?? [];
 				<th>Brandstof</th>
 				<th>Rijbewijscategorie</th>
 				<th>Toevoegen</th>
+				<th>Wijzigen</th>
 			</thead>
 			<tbody>
 				{$data['rows']}

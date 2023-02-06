@@ -115,6 +115,7 @@ class Instructeurs extends Controller
 										<td>$value->Brandstof</td>
 										<td>$value->RijbewijsCategorie</td>
 										<td><a href='" . URLROOT . "/instructeurs/add/$id/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+										<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
 								</tr>";
 				}
 			} else {
@@ -139,5 +140,16 @@ class Instructeurs extends Controller
 		}
 		$this->instructeurModel->createVoertuigInstructeur($voertuigId, $instructeurId);
 		header("Location: " . URLROOT . "/instructeurs/voertuigen/$instructeurId");
+	}
+
+	public function edit($id = null)
+	{
+		$instructeurs = $this->instructeurModel->getInstructeurs();
+
+
+
+		$data = ["instructeurs" => $instructeurs];
+
+		$this->view("instructeurs/edit", $data);
 	}
 }
