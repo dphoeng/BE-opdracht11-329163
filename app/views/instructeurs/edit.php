@@ -35,9 +35,9 @@ $data = $data ?? [];
 		</div>
 		<div>
 			<label for="brandstof">Brandstof:</label>
-			<input type="radio" name="brandstof" value="diesel" <?php if ($data['voertuig']->Brandstof == "Diesel") echo "checked" ?>><label for="diesel">Diesel</label>
-			<input type="radio" name="brandstof" value="benzine" <?php if ($data['voertuig']->Brandstof == "Benzine") echo "checked" ?>><label for="benzine">Benzine</label>
-			<input type="radio" name="brandstof" value="elektrisch" <?php if ($data['voertuig']->Brandstof == "Elektrisch") echo "checked" ?>><label for="electrisch">Electrisch</label>
+			<input type="radio" name="brandstof" value="Diesel" <?php if ($data['voertuig']->Brandstof == "Diesel") echo "checked" ?>><label for="diesel">Diesel</label>
+			<input type="radio" name="brandstof" value="Benzine" <?php if ($data['voertuig']->Brandstof == "Benzine") echo "checked" ?>><label for="benzine">Benzine</label>
+			<input type="radio" name="brandstof" value="Elektrisch" <?php if ($data['voertuig']->Brandstof == "Elektrisch") echo "checked" ?>><label for="electrisch">Electrisch</label>
 		</div>
 		<div>
 			<label for="kenteken">Kenteken</label>

@@ -150,10 +150,6 @@ class Instructeurs extends Controller
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 				$result = $this->instructeurModel->editVoertuig($_POST, $id);
-				if ($result)
-					echo "Het nieuwe onderwerp is succesvol toegevoegd";
-				else
-					echo "Het nieuwe onderwerp is niet succesvol toegevoegd";
 				// header("Location: " . URLROOT . "/instructeurs/voertuigen/$instructeurId");
 			} catch (PDOException $e) {
 				echo "Het creëeren is niet gelukt";

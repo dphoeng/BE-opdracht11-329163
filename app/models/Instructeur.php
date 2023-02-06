@@ -52,6 +52,15 @@ class Instructeur
 	public function editVoertuig($post, $id)
 	{
 		var_dump($post);
-		// $this->db->query("UPDATE `Voertuig`");
+		// $this->db->query("UPDATE `Voertuig` SET `Kenteken` = :kenteken, `Brandstof` = :brandstof, `Bouwjaar` = :bouwjaar, `TypeVoertuigId` = :typeVoertuigId, `Type` = :type WHERE `Id` = :id");
+		$this->db->query("CALL spEditVoertuig(:voertuigId, :instructeurId, :kenteken, :brandstof, :bouwjaar, :typeVoertuigId, :type");
+		$this->db->bind(":voertuigId", $id, PDO::PARAM_INT);
+		$this->db->bind(":instructeurId", $post['instructeur'], PDO::PARAM_INT);
+		$this->db->bind(":kenteken", $post['kenteken'], PDO::PARAM_STR);
+		$this->db->bind(":brandstof", $post['brandstof'], PDO::PARAM_STR);
+		$this->db->bind(":bouwjaar", $post['bouwjaar'], PDO::PARAM_STR);
+		$this->db->bind(":typeVoertuigId", $post['typeVoertuig'], PDO::PARAM_INT);
+		$this->db->bind(":type", $post['type'], PDO::PARAM_STR);
+		return $this->db->execute();
 	}
 }
