@@ -6,7 +6,7 @@ $data = $data ?? [];
 ?>
 
 <body>
-	<h1>Door instructeur gebruikte voertuigen</h1>
+	<h1>Alle beschikbare voertuigen</h1>
 	<h2>Naam: <?= $data['naam']; ?></h2>
 	<h2>Datum in dienst: <?= $data['datumInDienst']; ?></h2>
 	<h2>Aantal sterren: <?= $data['sterren']; ?></h2>
