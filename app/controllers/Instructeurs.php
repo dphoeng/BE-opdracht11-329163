@@ -150,7 +150,7 @@ class Instructeurs extends Controller
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 				$result = $this->instructeurModel->editVoertuig($_POST, $id);
-				// header("Location: " . URLROOT . "/instructeurs/voertuigen/$instructeurId");
+				header("Location: " . URLROOT . "/instructeurs/voertuigen/$instructeurId");
 			} catch (PDOException $e) {
 				echo "Het creëeren is niet gelukt";
 				echo $e;
@@ -160,7 +160,7 @@ class Instructeurs extends Controller
 		$instructeurs = $this->instructeurModel->getInstructeurs();
 		$voertuig = $this->instructeurModel->getVoertuigById($id);
 
-		$data = ["instructeurs" => $instructeurs, "voertuig" => $voertuig, "instructeurId" => $instructeurId];
+		$data = ["instructeurs" => $instructeurs, "voertuig" => $voertuig, "instructeurId" => $instructeurId, "id" => $id];
 
 		$this->view("instructeurs/edit", $data);
 	}

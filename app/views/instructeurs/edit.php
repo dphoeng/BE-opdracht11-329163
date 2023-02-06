@@ -6,7 +6,7 @@ $data = $data ?? [];
 
 <body>
 	<h1>Wijzigen voertuiggegevens</h1>
-	<form action="<?= URLROOT; ?>/instructeurs/edit" method="post" id="editform">
+	<form action="<?= URLROOT; ?>/instructeurs/edit/<?= "{$data['instructeurId']}/{$data['id']}" ?>" method="post" id="editform">
 		<div>
 			<label for="instructeur">Instructeur</label>
 			<select name="instructeur" id="instructeur">

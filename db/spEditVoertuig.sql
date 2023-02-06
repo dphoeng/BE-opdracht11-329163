@@ -3,8 +3,8 @@ DROP PROCEDURE IF EXISTS spEditVoertuig;
 DELIMITER //
 
 	CREATE PROCEDURE spEditVoertuig(
-        voertuigId		INT(11),
-        instructeurId	INT(11),
+        voertuig		INT(11),
+        instructeur		INT(11),
         kenteken		VARCHAR(10),
         brandstof		VARCHAR(20),
         bouwjaar		DATE,
@@ -20,10 +20,12 @@ BEGIN
         SELECT 'An error has occurred, operation rollbacked and the stored procedure was terminated';
     END;
     	START TRANSACTION;
-        	UPDATE Voertuig SET Kenteken = kenteken, Brandstof = brandstof, Bouwjaar = bouwjaar, TypeVoertuigId = typeVoertuigId, Type = type, DatumGewijzigd = SYSDATE() WHERE Id = voertuigId;
+        	UPDATE Voertuig SET Kenteken = kenteken, Brandstof = brandstof, Bouwjaar = bouwjaar, TypeVoertuigId = typeVoertuigId, Type = type, DatumGewijzigd = SYSDATE() WHERE Id = voertuig;
             
-            DELETE FROM VoertuigInstructeur WHERE VoertuigId = voertuigId;
             
-            CALL spCreateVoertuigInstructeur(voertuigId, instructeurId);
+			IF NOT EXISTS (SELECT * FROM VoertuigInstructeur WHERE VoertuigId = voertuig AND InstructeurId = instructeur) THEN
+	            UPDATE VoertuigInstructeur SET IsActief = 0 WHERE VoertuigId = voertuig AND IsActief = 1;
+	            CALL spCreateVoertuigInstructeur(voertuig, instructeur);
+			END IF;
     COMMIT;
 END;
