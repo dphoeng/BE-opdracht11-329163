@@ -1,0 +1,7 @@
+ALTER TABLE `Instructeur` ADD `IsActief` BIT(1) NOT NULL DEFAULT b'1' AFTER `AantalSterren`, ADD `Opmerking` VARCHAR(250) NULL AFTER `IsActief`, ADD `DatumAangemaakt` DATETIME(6) NOT NULL DEFAULT '2023/02/06 23:59' AFTER `Opmerking`, ADD `DatumGewijzigd` DATETIME(6) NOT NULL DEFAULT '2023/02/06 23:59' AFTER `DatumAangemaakt`;
+
+ALTER TABLE `Voertuig` ADD `IsActief` BIT(1) NOT NULL DEFAULT b'1' AFTER `TypeVoertuigId`, ADD `Opmerking` VARCHAR(250) NULL AFTER `IsActief`, ADD `DatumAangemaakt` DATETIME(6) NOT NULL DEFAULT '2023/02/06 23:59' AFTER `Opmerking`, ADD `DatumGewijzigd` DATETIME(6) NOT NULL DEFAULT '2023/02/06 23:59' AFTER `DatumAangemaakt`;
+
+ALTER TABLE `VoertuigInstructeur` ADD `IsActief` BIT(1) NOT NULL DEFAULT b'1' AFTER `DatumToekenning`, ADD `Opmerking` VARCHAR(250) NULL AFTER `IsActief`, ADD `DatumAangemaakt` DATETIME(6) NOT NULL DEFAULT '2023/02/06 23:59' AFTER `Opmerking`, ADD `DatumGewijzigd` DATETIME(6) NOT NULL DEFAULT '2023/02/06 23:59' AFTER `DatumAangemaakt`;
+
+ALTER TABLE `TypeVoertuig` ADD `IsActief` BIT(1) NOT NULL DEFAULT b'1' AFTER `RijbewijsCategorie`, ADD `Opmerking` VARCHAR(250) NULL AFTER `IsActief`, ADD `DatumAangemaakt` DATETIME(6) NOT NULL DEFAULT '2023/02/06 23:59' AFTER `Opmerking`, ADD `DatumGewijzigd` DATETIME(6) NOT NULL DEFAULT '2023/02/06 23:59' AFTER `DatumAangemaakt`;

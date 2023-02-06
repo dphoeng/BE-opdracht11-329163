@@ -44,8 +44,14 @@ class Instructeur
 
 	public function getVoertuigById($id)
 	{
-		$this->db->query("SELECT * FROM `Voertuig` voe INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId WHERE voe.Id = :id");
+		$this->db->query("SELECT * FROM `Voertuig` voe INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId LEFT JOIN `VoertuigInstructeur` vin ON vin.VoertuigId = voe.Id WHERE voe.Id = :id");
 		$this->db->bind(":id", $id, PDO::PARAM_INT);
 		return $this->db->single();
+	}
+
+	public function editVoertuig($post, $id)
+	{
+		var_dump($post);
+		// $this->db->query("UPDATE `Voertuig`");
 	}
 }

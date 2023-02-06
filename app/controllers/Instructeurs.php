@@ -149,21 +149,12 @@ class Instructeurs extends Controller
 			try {
 				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-				$data = ["id" => $id, "topicError" => ''];
-
-				// $data = $this->validateAddTopicForm($data);
-
-				if (empty($data['topicError'])) {
-					$result = $this->instructeurModel->createOnderwerp($_POST, $id);
-					$instructeur = $this->instructeurModel->getInstructeurByLesId($id)->InstructeurId;
-					if ($result)
-						echo "Het nieuwe onderwerp is succesvol toegevoegd";
-					else
-						echo "Het nieuwe onderwerp is niet succesvol toegevoegd";
-					header("Refresh:3; url=" . URLROOT . "/instructeur/$instructeur");
-				} else {
-					header("Refresh:3; url=" . URLROOT . "/lessen/createOnderwerp/" . $id);
-				}
+				$result = $this->instructeurModel->editVoertuig($_POST, $id);
+				if ($result)
+					echo "Het nieuwe onderwerp is succesvol toegevoegd";
+				else
+					echo "Het nieuwe onderwerp is niet succesvol toegevoegd";
+				// header("Location: " . URLROOT . "/instructeurs/voertuigen/$instructeurId");
 			} catch (PDOException $e) {
 				echo "Het creëeren is niet gelukt";
 				echo $e;
