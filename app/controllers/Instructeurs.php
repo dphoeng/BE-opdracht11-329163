@@ -69,6 +69,7 @@ class Instructeurs extends Controller
 										<td>$value->Bouwjaar</td>
 										<td>$value->Brandstof</td>
 										<td>$value->RijbewijsCategorie</td>
+										<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
 								</tr>";
 				}
 			} else {
@@ -142,13 +143,47 @@ class Instructeurs extends Controller
 		header("Location: " . URLROOT . "/instructeurs/voertuigen/$instructeurId");
 	}
 
-	public function edit($id = null)
+	public function edit($instructeurId = null, $id = null)
 	{
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			try {
+				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+				$data = ["id" => $id, "topicError" => ''];
+
+				// $data = $this->validateAddTopicForm($data);
+
+				if (empty($data['topicError'])) {
+					$result = $this->instructeurModel->createOnderwerp($_POST, $id);
+					$instructeur = $this->instructeurModel->getInstructeurByLesId($id)->InstructeurId;
+					if ($result)
+						echo "Het nieuwe onderwerp is succesvol toegevoegd";
+					else
+						echo "Het nieuwe onderwerp is niet succesvol toegevoegd";
+					header("Refresh:3; url=" . URLROOT . "/instructeur/$instructeur");
+				} else {
+					header("Refresh:3; url=" . URLROOT . "/lessen/createOnderwerp/" . $id);
+				}
+			} catch (PDOException $e) {
+				echo "Het creëeren is niet gelukt";
+				echo $e;
+				// header("Refresh:3; url=" . URLROOT . "/lessen/onderwerpen/" . $id);
+			}
+		}
 		$instructeurs = $this->instructeurModel->getInstructeurs();
 		$voertuig = $this->instructeurModel->getVoertuigById($id);
 
-		$data = ["instructeurs" => $instructeurs, "voertuig" => $voertuig];
+		$data = ["instructeurs" => $instructeurs, "voertuig" => $voertuig, "instructeurId" => $instructeurId];
 
 		$this->view("instructeurs/edit", $data);
+	}
+
+	private function validateAddTopicForm($data)
+	{
+		if (strlen($data['topic']) > 255) {
+			$data['topicError'] = "De nieuwe opmerking bevat meer dan 255 karakters";
+		} else if (strlen($data['topic'] < 1))
+			$data['topicError'] = "De nieuwe opmerking moet text bevatten";
+		return ($data);
 	}
 }
