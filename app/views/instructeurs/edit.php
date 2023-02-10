@@ -34,7 +34,7 @@ $data = $data ?? [];
 		</div>
 		<div>
 			<label for="bouwjaar">Bouwjaar:</label>
-			<input type="date" name="bouwjaar" value="<?= $data['voertuig']->Bouwjaar ?>" disabled>
+			<input type="date" name="bouwjaar" value="<?= $data['voertuig']->Bouwjaar ?>" readonly="readonly">
 		</div>
 		<div>
 			<label for="brandstof">Brandstof:</label>
