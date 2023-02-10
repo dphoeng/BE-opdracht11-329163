@@ -15,6 +15,6 @@ BEGIN
         SELECT 'An error has occurred, operation rollbacked and the stored procedure was terminated';
     END;
     	START TRANSACTION;
-        	INSERT INTO VoertuigInstructeur (VoertuigId, InstructeurId, DatumToekenning) VALUES (voertuigId, instructeurId, SYSDATE());
+        	INSERT INTO VoertuigInstructeur (VoertuigId, InstructeurId, DatumToekenning, DatumAangemaakt, DatumGewijzigd) VALUES (voertuigId, instructeurId, SYSDATE(), SYSDATE(), SYSDATE());
     COMMIT;
 END;

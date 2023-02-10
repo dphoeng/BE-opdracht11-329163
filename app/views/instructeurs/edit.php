@@ -11,8 +11,11 @@ $data = $data ?? [];
 			<label for="instructeur">Instructeur</label>
 			<select name="instructeur" id="instructeur">
 				<option selected disabled>Kies optie</option>
-				<?php foreach ($data['instructeurs'] as $instructeur) : ?>
+				<?php if ($data['voertuig']) foreach ($data['instructeurs'] as $instructeur) : ?>
 					<option value="<?= $instructeur->Id ?>" <?php if ($data['voertuig']->InstructeurId == $instructeur->Id) echo "selected" ?>><?= $instructeur->Tussenvoegsel ? "$instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam" : "$instructeur->Voornaam $instructeur->Achternaam" ?></option>
+				<?php endforeach; ?>
+				<?php if (!$data['voertuig']) foreach ($data['instructeurs'] as $instructeur) : ?>
+					<option value="<?= $instructeur->Id ?>"><?= $instructeur->Tussenvoegsel ? "$instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam" : "$instructeur->Voornaam $instructeur->Achternaam" ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -31,7 +34,7 @@ $data = $data ?? [];
 		</div>
 		<div>
 			<label for="bouwjaar">Bouwjaar:</label>
-			<input type="date" name="bouwjaar" value="<?= $data['voertuig']->Bouwjaar ?>">
+			<input type="date" name="bouwjaar" value="<?= $data['voertuig']->Bouwjaar ?>" disabled>
 		</div>
 		<div>
 			<label for="brandstof">Brandstof:</label>

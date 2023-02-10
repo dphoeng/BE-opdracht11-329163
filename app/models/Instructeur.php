@@ -44,7 +44,7 @@ class Instructeur
 
 	public function getVoertuigById($id)
 	{
-		$this->db->query("SELECT * FROM `Voertuig` voe INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId LEFT JOIN `VoertuigInstructeur` vin ON vin.VoertuigId = voe.Id WHERE voe.Id = :id");
+		$this->db->query("SELECT * FROM `Voertuig` voe INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId LEFT JOIN `VoertuigInstructeur` vin ON vin.VoertuigId = voe.Id WHERE voe.Id = :id AND (vin.IsActief = 1 OR vin.IsActief IS NULL)");
 		$this->db->bind(":id", $id, PDO::PARAM_INT);
 		return $this->db->single();
 	}
