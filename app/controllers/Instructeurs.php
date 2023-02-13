@@ -172,6 +172,32 @@ class Instructeurs extends Controller
 		$this->view("instructeurs/edit", $data);
 	}
 
+	public function all()
+	{
+		$rows = "";
+		$data = "";
+		$voertuigen = $this->instructeurModel->getAvailableVoertuigen();
+		if ($voertuigen) {
+			foreach ($voertuigen as $value) {
+
+				$rows .= "<tr>
+										<td>$value->TypeVoertuig</td>
+										<td>$value->Type</td>
+										<td>$value->Kenteken</td>
+										<td>$value->Bouwjaar</td>
+										<td>$value->Brandstof</td>
+										<td>$value->RijbewijsCategorie</td>
+										<td><a href='" . URLROOT . "/instructeurs/add/$id/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+										<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+								</tr>";
+			}
+		} else {
+			$error = "Er zijn geen voertuigen meer over om toe te voegen";
+			header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
+		}
+		$this->view("instructeur/all", $data);
+	}
+
 	private function validateAddTopicForm($data)
 	{
 		if (strlen($data['topic']) > 255) {

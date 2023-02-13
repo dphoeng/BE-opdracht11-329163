@@ -66,6 +66,12 @@ class Instructeur
 		return $this->db->execute();
 	}
 
+	public function getAllVoertuigen()
+	{
+		$this->db->query("SELECT * FROM `Voertuig` voe LEFT JOIN `VoertuigInstructeur` vin ON voe.Id = vin.VoertuigId LEFT JOIN `TypeVoertuig` typ ON voe.TypeVoertuigId = typ.Id LEFT JOIN `Instructeur` ins ON ins.Id = vin.InstructeurId ORDER BY voe.Bouwjaar DESC, ins.Voornaam ASC");
+		return $this->db->resultSet();
+	}
+
 	public function removeInstructeurVoertuig($instructeurId, $voertuigId)
 	{
 		$this->db->query("CALL spRemoveInstructeurVoertuig(:voertuigId, :instructeurId);");
