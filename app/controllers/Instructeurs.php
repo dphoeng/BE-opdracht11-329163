@@ -70,6 +70,7 @@ class Instructeurs extends Controller
 										<td>$value->Brandstof</td>
 										<td>$value->RijbewijsCategorie</td>
 										<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+										<td><a href='" . URLROOT . "/instructeurs/remove/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
 								</tr>";
 				}
 			} else {
@@ -162,6 +163,10 @@ class Instructeurs extends Controller
 		$data = ["instructeurs" => $instructeurs, "voertuig" => $voertuig, "instructeurId" => $instructeurId, "id" => $id];
 
 		$this->view("instructeurs/edit", $data);
+	}
+
+	private function remove($instructeurId = null, $voertuigId = null)
+	{
 	}
 
 	private function validateAddTopicForm($data)
