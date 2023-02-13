@@ -15,6 +15,6 @@ BEGIN
     END;
     	START TRANSACTION;
 			DELETE FROM VoertuigInstructeur WHERE VoertuigId = voertuig;
-			DELETE FROM Voertuig WHERE VoertuigId = voertuig;
+			DELETE FROM Voertuig WHERE Id = voertuig;
     COMMIT;
 END;

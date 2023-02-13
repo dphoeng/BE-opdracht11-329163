@@ -68,7 +68,7 @@ class Instructeur
 
 	public function getAllVoertuigen()
 	{
-		$this->db->query("SELECT * FROM `Voertuig` voe LEFT JOIN `VoertuigInstructeur` vin ON voe.Id = vin.VoertuigId LEFT JOIN `TypeVoertuig` typ ON voe.TypeVoertuigId = typ.Id LEFT JOIN `Instructeur` ins ON ins.Id = vin.InstructeurId ORDER BY voe.Bouwjaar DESC, ins.Voornaam ASC");
+		$this->db->query("SELECT TypeVoertuig, Type, Kenteken, Bouwjaar, Brandstof, RijbewijsCategorie, Voornaam, voe.Id FROM `Voertuig` voe LEFT JOIN `VoertuigInstructeur` vin ON voe.Id = vin.VoertuigId LEFT JOIN `TypeVoertuig` typ ON voe.TypeVoertuigId = typ.Id LEFT JOIN `Instructeur` ins ON ins.Id = vin.InstructeurId ORDER BY voe.Bouwjaar DESC, ins.Voornaam ASC");
 		return $this->db->resultSet();
 	}
 
@@ -77,6 +77,13 @@ class Instructeur
 		$this->db->query("CALL spRemoveInstructeurVoertuig(:voertuigId, :instructeurId);");
 		$this->db->bind(":voertuigId", $voertuigId, PDO::PARAM_INT);
 		$this->db->bind(":instructeurId", $instructeurId, PDO::PARAM_INT);
+		return $this->db->execute();
+	}
+
+	public function removeVoertuig($voertuigId)
+	{
+		$this->db->query("CALL spRemoveVoertuig(:voertuigId);");
+		$this->db->bind(":voertuigId", $voertuigId, PDO::PARAM_INT);
 		return $this->db->execute();
 	}
 }
