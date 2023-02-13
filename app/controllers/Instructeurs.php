@@ -176,6 +176,12 @@ class Instructeurs extends Controller
 	{
 		$rows = $data = $error = $deleted = "";
 
+		if ($delete) {
+			$this->instructeurModel->removeVoertuig($delete);
+			$deleted = "Het door u geselecteerde voertuig is verwijderd";
+			header("Refresh:3; url=" . URLROOT . "/instructeurs/all");
+		}
+
 		$voertuigen = $this->instructeurModel->getAllVoertuigen();
 		if ($voertuigen) {
 			foreach ($voertuigen as $value) {
