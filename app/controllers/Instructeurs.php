@@ -172,30 +172,30 @@ class Instructeurs extends Controller
 		$this->view("instructeurs/edit", $data);
 	}
 
-	public function all()
+	public function all($delete = null)
 	{
-		$rows = "";
-		$data = "";
-		$voertuigen = $this->instructeurModel->getAvailableVoertuigen();
+		$rows = $data = $error = $deleted = "";
+
+		$voertuigen = $this->instructeurModel->getAllVoertuigen();
 		if ($voertuigen) {
 			foreach ($voertuigen as $value) {
-
 				$rows .= "<tr>
-										<td>$value->TypeVoertuig</td>
-										<td>$value->Type</td>
-										<td>$value->Kenteken</td>
-										<td>$value->Bouwjaar</td>
-										<td>$value->Brandstof</td>
-										<td>$value->RijbewijsCategorie</td>
-										<td><a href='" . URLROOT . "/instructeurs/add/$id/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
-										<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
-								</tr>";
+							<td>$value->TypeVoertuig</td>
+							<td>$value->Type</td>
+							<td>$value->Kenteken</td>
+							<td>$value->Bouwjaar</td>
+							<td>$value->Brandstof</td>
+							<td>$value->RijbewijsCategorie</td>
+							<td>$value->Voornaam</td>
+							<td><a href='" . URLROOT . "/instructeurs/all/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+						</tr>";
 			}
 		} else {
-			$error = "Er zijn geen voertuigen meer over om toe te voegen";
-			header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
+			$error = "Er zijn geen voertuigen beschikbaar op dit moment";
+			header("Refresh:3; url=" . URLROOT . "/instructeurs");
 		}
-		$this->view("instructeur/all", $data);
+		$data = ["rows" => $rows, "error" => $error, "deleted" => $deleted];
+		$this->view("instructeurs/all", $data);
 	}
 
 	private function validateAddTopicForm($data)
