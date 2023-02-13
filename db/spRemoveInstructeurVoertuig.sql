@@ -4,7 +4,7 @@ DELIMITER //
 
 	CREATE PROCEDURE spRemoveInstructeurVoertuig(
         voertuig		INT(11),
-        instructeur		INT(11),
+        instructeur		INT(11)
     )
     
 BEGIN
