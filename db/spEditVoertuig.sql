@@ -23,11 +23,16 @@ BEGIN
         	UPDATE Voertuig SET Kenteken = kenteken, Brandstof = brandstof, Bouwjaar = bouwjaar, TypeVoertuigId = typeVoertuigId, Type = type, DatumGewijzigd = SYSDATE() WHERE Id = voertuig;
 
 			IF NOT EXISTS (SELECT * FROM VoertuigInstructeur WHERE VoertuigId = voertuig AND InstructeurId = instructeur) THEN
-	            UPDATE VoertuigInstructeur SET IsActief = 0, DatumGewijzigd = SYSDATE() WHERE VoertuigId = voertuig AND IsActief = 1;
+	            DELETE FROM VoertuigInstructeur WHERE VoertuigId = voertuig;
 	            CALL spCreateVoertuigInstructeur(voertuig, instructeur);
-			ELSEIF EXISTS (SELECT * FROM VoertuigInstructeur WHERE InstructeurId = instructeur AND IsActief = 0) THEN
-				UPDATE VoertuigInstructeur SET IsActief = 0, DatumGewijzigd = SYSDATE() WHERE VoertuigId = voertuig AND NOT InstructeurId = instructeur;
-				UPDATE VoertuigInstructeur SET IsActief = 1, DatumGewijzigd = SYSDATE() WHERE VoertuigId = voertuig AND InstructeurId = instructeur;
 			END IF;
+
+			-- IF NOT EXISTS (SELECT * FROM VoertuigInstructeur WHERE VoertuigId = voertuig AND InstructeurId = instructeur) THEN
+	        --     UPDATE VoertuigInstructeur SET IsActief = 0, DatumGewijzigd = SYSDATE() WHERE VoertuigId = voertuig AND IsActief = 1;
+	        --     CALL spCreateVoertuigInstructeur(voertuig, instructeur);
+			-- ELSEIF EXISTS (SELECT * FROM VoertuigInstructeur WHERE InstructeurId = instructeur AND IsActief = 0) THEN
+			-- 	UPDATE VoertuigInstructeur SET IsActief = 0, DatumGewijzigd = SYSDATE() WHERE VoertuigId = voertuig AND NOT InstructeurId = instructeur;
+			-- 	UPDATE VoertuigInstructeur SET IsActief = 1, DatumGewijzigd = SYSDATE() WHERE VoertuigId = voertuig AND InstructeurId = instructeur;
+			-- END IF;
     COMMIT;
 END;
