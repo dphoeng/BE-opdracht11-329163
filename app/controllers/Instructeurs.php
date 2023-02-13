@@ -40,15 +40,22 @@ class Instructeurs extends Controller
 		$this->view("instructeurs/index", $data);
 	}
 
-	public function voertuigen($id = null)
+	public function voertuigen($id = null, $delete = null)
 	{
-		$rows = '';
+		$rows = "";
 		$sterren = "";
 		$naam = "";
 		$datumInDienst = "";
 		$error = "";
+		$deleted = "";
 
 		$instructeur = $this->instructeurModel->getInstructeurById($id);
+
+		if ($delete) {
+			$this->instructeurModel->removeInstructeurVoertuig($id, $delete);
+			$deleted = "Het door u geselecteerde voertuig is verwijderd";
+			header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
+		}
 
 		if ($instructeur) {
 			for ($i = 0; $i < $instructeur->AantalSterren; $i++) {
@@ -70,7 +77,7 @@ class Instructeurs extends Controller
 										<td>$value->Brandstof</td>
 										<td>$value->RijbewijsCategorie</td>
 										<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
-										<td><a href='" . URLROOT . "/instructeurs/remove/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+										<td><a href='" . URLROOT . "/instructeurs/voertuigen/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
 								</tr>";
 				}
 			} else {
@@ -83,7 +90,7 @@ class Instructeurs extends Controller
 
 		// data die wordt doorgestuurd naar de view
 		$data = [
-			"rows" => $rows, "aantal" => count($record), "naam" => $naam, "sterren" => $sterren, "datumInDienst" => $datumInDienst, "id" => $id, "error" => $error
+			"rows" => $rows, "aantal" => count($record), "naam" => $naam, "sterren" => $sterren, "datumInDienst" => $datumInDienst, "id" => $id, "error" => $error, "deleted" => $deleted
 		];
 		$this->view("instructeurs/voertuigen", $data);
 	}
@@ -163,11 +170,6 @@ class Instructeurs extends Controller
 		$data = ["instructeurs" => $instructeurs, "voertuig" => $voertuig, "instructeurId" => $instructeurId, "id" => $id];
 
 		$this->view("instructeurs/edit", $data);
-	}
-
-	private function remove($instructeurId = null, $voertuigId = null)
-	{
-		$this->instructeurModel->removeInstructeurVoertuig($instructeurId, $voertuigId);
 	}
 
 	private function validateAddTopicForm($data)

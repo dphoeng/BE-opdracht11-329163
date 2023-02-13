@@ -10,7 +10,10 @@ $data = $data ?? [];
 	<h2>Naam: <?= $data['naam']; ?></h2>
 	<h2>Datum in dienst: <?= $data['datumInDienst']; ?></h2>
 	<h2>Aantal sterren: <?= $data['sterren']; ?></h2>
-	<a href="<?= URLROOT . "/instructeurs/toevoegen/" . $data['id'] ?>"><button>Toevoegen Voertuig</button></a>
+	<div>
+		<a href="<?= URLROOT . "/instructeurs/toevoegen/" . $data['id'] ?>"><button>Toevoegen Voertuig</button></a>
+		<p><?= $data['deleted'] ?></p>
+	</div>
 	<?php if ($data['rows'] != '') {
 		echo "
 			<table>
