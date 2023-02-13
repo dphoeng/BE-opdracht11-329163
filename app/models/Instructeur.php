@@ -65,4 +65,12 @@ class Instructeur
 		$this->db->query("CALL spEditVoertuig($id, {$post['instructeur']}, '{$post['kenteken']}', '{$post['brandstof']}', '{$post['bouwjaar']}', {$post['typeVoertuig']}, '{$post['type']}')");
 		return $this->db->execute();
 	}
+
+	public function removeInstructeurVoertuig($instructeurId, $voertuigId)
+	{
+		$this->db->query("CALL spRemoveInstructeurVoertuig(:voertuigId, :instructeurId);");
+		$this->db->bind(":voertuigId", $voertuigId, PDO::PARAM_INT);
+		$this->db->bind(":instructeurId", $instructeurId, PDO::PARAM_INT);
+		return $this->db->execute();
+	}
 }

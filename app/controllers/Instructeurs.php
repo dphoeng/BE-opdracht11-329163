@@ -167,6 +167,7 @@ class Instructeurs extends Controller
 
 	private function remove($instructeurId = null, $voertuigId = null)
 	{
+		$this->instructeurModel->removeInstructeurVoertuig($instructeurId, $voertuigId);
 	}
 
 	private function validateAddTopicForm($data)
