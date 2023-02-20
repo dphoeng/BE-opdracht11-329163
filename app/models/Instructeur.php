@@ -86,4 +86,11 @@ class Instructeur
 		$this->db->bind(":voertuigId", $voertuigId, PDO::PARAM_INT);
 		return $this->db->execute();
 	}
+
+	public function setVoertuigInActiefByInstructeurId($id)
+	{
+		$this->db->query("CALL spSetVoertuigInActiefByInstructeurId(:instructeurId);");
+		$this->db->bind(":instructeurId", $id, PDO::PARAM_INT);
+		return $this->db->execute();
+	}
 }

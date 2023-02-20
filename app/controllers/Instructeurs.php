@@ -9,9 +9,16 @@ class Instructeurs extends Controller
 		$this->instructeurModel = $this->model('Instructeur');
 	}
 
-	public function index()
+	public function index($id = null)
 	{
 		$rows = '';
+		$notification = '';
+
+		if ($id) {
+			if ($this->instructeurModel->setVoertuigInActiefByInstructeurId($id)) {
+				$notification = "Instructeur is ziek/met verlof gemeld";
+			}
+		}
 
 		// haalt de gegevens uit de database via the model
 		$record = $this->instructeurModel->getInstructeurs();
@@ -29,6 +36,7 @@ class Instructeurs extends Controller
 									<td>$value->DatumInDienst</td>
 									<td>$sterren</td>
 									<td><a href='" . URLROOT . "/instructeurs/voertuigen/$value->Id'><img src='" . URLROOT . "/img/book.png' alt='book'></a></td>
+									<td><a href='" . URLROOT . "/instructeurs/index/$value->Id'><img src='" . URLROOT . "/img/book.png' alt='book'></a></td>
 							</tr>";
 			}
 		}

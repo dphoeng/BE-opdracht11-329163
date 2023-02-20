@@ -17,6 +17,7 @@ $data = $data ?? [];
 			<th>Datum in dienst</th>
 			<th>Aantal sterren</th>
 			<th>Voertuigen</th>
+			<th>Ziekte/Verlof</th>
 		</thead>
 		<tbody>
 			<?= $data["rows"]; ?>
