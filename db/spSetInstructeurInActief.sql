@@ -1,9 +1,10 @@
-DROP PROCEDURE IF EXISTS spSetVoertuigInActiefByInstructeurId;
+DROP PROCEDURE IF EXISTS spSetInstructeurInActief;
 
 DELIMITER //
 
-	CREATE PROCEDURE spSetVoertuigInActiefByInstructeurId(
-        instructeur		INT(11)
+	CREATE PROCEDURE spSetInstructeurInactief(
+        instructeur		INT(11),
+		actief			BIT(1)
     )
     
 BEGIN
@@ -14,6 +15,6 @@ BEGIN
         SELECT 'An error has occurred, operation rollbacked and the stored procedure was terminated';
     END;
     	START TRANSACTION;
-			UPDATE VoertuigInstructeur SET InActief = 0 WHERE InstructeurId = instructeur;
+			UPDATE Instructeur SET IsActief = actief WHERE Id = instructeur;
     COMMIT;
 END;

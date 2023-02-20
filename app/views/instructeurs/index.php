@@ -8,6 +8,7 @@ $data = $data ?? [];
 <body>
 	<h1>Instructeurs in dienst</h1>
 	<h2>Aantal instructeurs: <?= $data['aantal']; ?></h2>
+	<p><?= $data['notification']; ?></p>
 	<table>
 		<thead>
 			<th>Voornaam</th>

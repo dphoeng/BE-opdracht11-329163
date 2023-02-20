@@ -15,8 +15,10 @@ class Instructeurs extends Controller
 		$notification = '';
 
 		if ($id) {
-			if ($this->instructeurModel->setVoertuigInActiefByInstructeurId($id)) {
-				$notification = "Instructeur is ziek/met verlof gemeld";
+			if ($this->instructeurModel->setInstructeurInactief($id)) {
+				$instructeur = $this->instructeurModel->getInstructeurById($id);
+				$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is ziek/met verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam is ziek/met verlof gemeld";
+				header("Refresh:3;url=" . URLROOT . "/instructeurs/");
 			}
 		}
 
@@ -43,7 +45,7 @@ class Instructeurs extends Controller
 
 		// data die wordt doorgestuurd naar de view
 		$data = [
-			"rows" => $rows, "aantal" => count($record),
+			"rows" => $rows, "aantal" => count($record), "notification" => $notification
 		];
 		$this->view("instructeurs/index", $data);
 	}
@@ -71,26 +73,30 @@ class Instructeurs extends Controller
 			}
 			$naam = $instructeur->Tussenvoegsel ? "$instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam" : "$instructeur->Voornaam $instructeur->Achternaam";
 			$datumInDienst = $instructeur->DatumInDienst;
+			$record = $this->instructeurModel->getVoertuigenByInstructeurId($id);
 
 			// haalt de gegevens uit de database via the model
-			$record = $this->instructeurModel->getVoertuigenByInstructeurId($id);
-			if ($record) {
-				foreach ($record as $value) {
-
-					$rows .= "<tr>
-										<td>$value->TypeVoertuig</td>
-										<td>$value->Type</td>
-										<td>$value->Kenteken</td>
-										<td>$value->Bouwjaar</td>
-										<td>$value->Brandstof</td>
-										<td>$value->RijbewijsCategorie</td>
-										<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
-										<td><a href='" . URLROOT . "/instructeurs/voertuigen/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
-								</tr>";
-				}
+			if ($instructeur->IsActief == 0) {
+				$error = "Instructeur ziek of met verlof";
 			} else {
-				$error = "Er zijn op dit moment nog geen voertuigen toegewezen aan deze instructeur";
-				// header("Refresh:3; url=" . URLROOT . "/instructeurs/index");
+				if ($record) {
+					foreach ($record as $value) {
+
+						$rows .= "<tr>
+											<td>$value->TypeVoertuig</td>
+											<td>$value->Type</td>
+											<td>$value->Kenteken</td>
+											<td>$value->Bouwjaar</td>
+											<td>$value->Brandstof</td>
+											<td>$value->RijbewijsCategorie</td>
+											<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+											<td><a href='" . URLROOT . "/instructeurs/voertuigen/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+									</tr>";
+					}
+				} else {
+					$error = "Er zijn op dit moment nog geen voertuigen toegewezen aan deze instructeur";
+					// header("Refresh:3; url=" . URLROOT . "/instructeurs/index");
+				}
 			}
 		} else {
 			header("Location: " . URLROOT . "/instructeurs/index");
@@ -193,6 +199,10 @@ class Instructeurs extends Controller
 		$voertuigen = $this->instructeurModel->getAllVoertuigen();
 		if ($voertuigen) {
 			foreach ($voertuigen as $value) {
+				if ($value->IsActief == 1)
+					$voornaam = $value->Voornaam;
+				else
+					$voornaam = "";
 				$rows .= "<tr>
 							<td>$value->TypeVoertuig</td>
 							<td>$value->Type</td>
@@ -200,7 +210,7 @@ class Instructeurs extends Controller
 							<td>$value->Bouwjaar</td>
 							<td>$value->Brandstof</td>
 							<td>$value->RijbewijsCategorie</td>
-							<td>$value->Voornaam</td>
+							<td>$voornaam</td>
 							<td><a href='" . URLROOT . "/instructeurs/all/$value->Id" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
 						</tr>";
 			}

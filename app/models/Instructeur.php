@@ -18,7 +18,7 @@ class Instructeur
 
 	public function getVoertuigenByInstructeurId($id)
 	{
-		$this->db->query("SELECT * FROM `Voertuig` voe INNER JOIN `VoertuigInstructeur` vin ON vin.VoertuigId = voe.Id INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId WHERE vin.InstructeurId = :id AND vin.IsActief = 1 ORDER BY typ.RijbewijsCategorie");
+		$this->db->query("SELECT * FROM `Voertuig` voe INNER JOIN `VoertuigInstructeur` vin ON vin.VoertuigId = voe.Id INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId WHERE vin.InstructeurId = :id ORDER BY typ.RijbewijsCategorie");
 		$this->db->bind(":id", $id, PDO::PARAM_INT);
 		return $this->db->resultSet();
 	}
@@ -68,7 +68,7 @@ class Instructeur
 
 	public function getAllVoertuigen()
 	{
-		$this->db->query("SELECT TypeVoertuig, Type, Kenteken, Bouwjaar, Brandstof, RijbewijsCategorie, Voornaam, voe.Id FROM `Voertuig` voe LEFT JOIN `VoertuigInstructeur` vin ON voe.Id = vin.VoertuigId LEFT JOIN `TypeVoertuig` typ ON voe.TypeVoertuigId = typ.Id LEFT JOIN `Instructeur` ins ON ins.Id = vin.InstructeurId ORDER BY voe.Bouwjaar DESC, ins.Voornaam ASC");
+		$this->db->query("SELECT TypeVoertuig, Type, Kenteken, Bouwjaar, Brandstof, RijbewijsCategorie, Voornaam, voe.Id, ins.IsActief FROM `Voertuig` voe LEFT JOIN `VoertuigInstructeur` vin ON voe.Id = vin.VoertuigId LEFT JOIN `TypeVoertuig` typ ON voe.TypeVoertuigId = typ.Id LEFT JOIN `Instructeur` ins ON ins.Id = vin.InstructeurId ORDER BY voe.Bouwjaar DESC, ins.Voornaam ASC");
 		return $this->db->resultSet();
 	}
 
@@ -87,9 +87,9 @@ class Instructeur
 		return $this->db->execute();
 	}
 
-	public function setVoertuigInActiefByInstructeurId($id)
+	public function setInstructeurInactief($id)
 	{
-		$this->db->query("CALL spSetVoertuigInActiefByInstructeurId(:instructeurId);");
+		$this->db->query("CALL spSetInstructeurInactief(:instructeurId, 0);");
 		$this->db->bind(":instructeurId", $id, PDO::PARAM_INT);
 		return $this->db->execute();
 	}
