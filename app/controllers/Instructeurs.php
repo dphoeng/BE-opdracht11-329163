@@ -15,10 +15,15 @@ class Instructeurs extends Controller
 		$notification = '';
 
 		if ($id) {
-			if ($this->instructeurModel->setInstructeurInactief($id)) {
-				$instructeur = $this->instructeurModel->getInstructeurById($id);
-				$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is ziek/met verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam is ziek/met verlof gemeld";
-				header("Refresh:3;url=" . URLROOT . "/instructeurs/");
+			$instructeur = $this->instructeurModel->getInstructeurById($id);
+			if ($instructeur->IsActief == 1) {
+				if ($this->instructeurModel->setInstructeurInactief($id)) {
+					$instructeur = $this->instructeurModel->getInstructeurById($id);
+					$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is ziek/met verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam is ziek/met verlof gemeld";
+					header("Refresh:3;url=" . URLROOT . "/instructeurs/");
+				}
+			} else {
+				// inactief (must be set to active again)
 			}
 		}
 
@@ -30,6 +35,7 @@ class Instructeurs extends Controller
 				for ($i = 0; $i < $value->AantalSterren; $i++) {
 					$sterren .= "★";
 				}
+				$image = $value->IsActief == 1 ? "like.png" : "band-aid.png";
 				$rows .= "<tr>
 									<td>$value->Voornaam</td>
 									<td>$value->Tussenvoegsel</td>
@@ -38,7 +44,7 @@ class Instructeurs extends Controller
 									<td>$value->DatumInDienst</td>
 									<td>$sterren</td>
 									<td><a href='" . URLROOT . "/instructeurs/voertuigen/$value->Id'><img src='" . URLROOT . "/img/book.png' alt='book'></a></td>
-									<td><a href='" . URLROOT . "/instructeurs/index/$value->Id'><img src='" . URLROOT . "/img/book.png' alt='book'></a></td>
+									<td><a href='" . URLROOT . "/instructeurs/index/$value->Id'><img src='" . URLROOT . "/img/" . $image . "' alt='book'></a></td>
 							</tr>";
 			}
 		}
