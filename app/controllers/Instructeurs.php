@@ -70,18 +70,20 @@ class Instructeurs extends Controller
 
 		$instructeur = $this->instructeurModel->getInstructeurById($id);
 
-		if ($delete == "delete") {
-			$this->instructeurModel->removeInstructeurVoertuig($id, $newId);
-			$deleted = "Het door u geselecteerde voertuig is verwijderd";
-			header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
-		} else if ($delete == "setactive") {
-		}
-
 		if ($instructeur) {
 			for ($i = 0; $i < $instructeur->AantalSterren; $i++) {
 				$sterren .= "★";
 			}
 			$naam = $instructeur->Tussenvoegsel ? "$instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam" : "$instructeur->Voornaam $instructeur->Achternaam";
+			if ($delete == "delete") {
+				$this->instructeurModel->removeInstructeurVoertuig($id, $newId);
+				$deleted = "Het door u geselecteerde voertuig is verwijderd";
+				header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
+			} else if ($delete == "reassign") {
+				$this->instructeurModel->reassignVoertuig($newId);
+				$deleted = "Het geselecteerde voertuig is weer toegewezen aan $naam";
+				header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
+			}
 			$datumInDienst = $instructeur->DatumInDienst;
 			$record = $this->instructeurModel->getVoertuigenByInstructeurId($id);
 
@@ -91,7 +93,7 @@ class Instructeurs extends Controller
 			} else {
 				if ($record) {
 					foreach ($record as $value) {
-						$active = $value->IsActief == 1 ? "<img src=' " . URLROOT . "/img/approved.png'>" : "<a href='" . URLROOT . "/instructeurs/voertuigen/$id/setactive/$value->VoertuigId" . "'><img src=' " . URLROOT . "/img/close.png'></a>";
+						$active = $value->IsActief == 1 ? "<img src=' " . URLROOT . "/img/approved.png'>" : "<a href='" . URLROOT . "/instructeurs/voertuigen/$id/reassign/$value->VoertuigId" . "'><img src=' " . URLROOT . "/img/close.png'></a>";
 						$rows .= "<tr>
 											<td>$value->TypeVoertuig</td>
 											<td>$value->Type</td>

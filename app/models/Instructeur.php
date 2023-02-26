@@ -94,4 +94,11 @@ class Instructeur
 		$this->db->bind(":active", $active, PDO::PARAM_INT);
 		return $this->db->execute();
 	}
+
+	public function reassignVoertuig($voertuigId)
+	{
+		$this->db->query("CALL spReassignVoertuig(:voertuigId);");
+		$this->db->bind(":voertuigId", $voertuigId, PDO::PARAM_INT);
+		return $this->db->execute();
+	}
 }
