@@ -17,13 +17,16 @@ class Instructeurs extends Controller
 		if ($id) {
 			$instructeur = $this->instructeurModel->getInstructeurById($id);
 			if ($instructeur->IsActief == 1) {
-				if ($this->instructeurModel->setInstructeurInactief($id)) {
-					$instructeur = $this->instructeurModel->getInstructeurById($id);
+				if ($this->instructeurModel->setInstructeurInactief($id, 0)) {
 					$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is ziek/met verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam is ziek/met verlof gemeld";
 					header("Refresh:3;url=" . URLROOT . "/instructeurs/");
 				}
 			} else {
 				// inactief (must be set to active again)
+				if ($this->instructeurModel->setInstructeurInactief($id, 1)) {
+					$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is beter/terug van verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam  is beter/terug van verlof gemeld";
+					header("Refresh:3;url=" . URLROOT . "/instructeurs/");
+				}
 			}
 		}
 
@@ -87,7 +90,7 @@ class Instructeurs extends Controller
 			} else {
 				if ($record) {
 					foreach ($record as $value) {
-
+						$active = $value->IsActief == 1 ? "<img src=' " . URLROOT . "/img/approved.png'>" : "<a href=''><img src=' " . URLROOT . "/img/close.png'></a>";
 						$rows .= "<tr>
 											<td>$value->TypeVoertuig</td>
 											<td>$value->Type</td>
@@ -97,6 +100,7 @@ class Instructeurs extends Controller
 											<td>$value->RijbewijsCategorie</td>
 											<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
 											<td><a href='" . URLROOT . "/instructeurs/voertuigen/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+											<td>" . $active . "</td>
 									</tr>";
 					}
 				} else {

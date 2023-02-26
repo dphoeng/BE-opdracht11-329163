@@ -3,8 +3,8 @@ DROP PROCEDURE IF EXISTS spCreateVoertuigInstructeur;
 DELIMITER //
 
 	CREATE PROCEDURE spCreateVoertuigInstructeur(
-        voertuigId		INT(11),
-        instructeurId	INT(11)
+        voertuig		INT(11),
+        instructeur		INT(11)
     )
     
 BEGIN
@@ -15,6 +15,7 @@ BEGIN
         SELECT 'An error has occurred, operation rollbacked and the stored procedure was terminated';
     END;
     	START TRANSACTION;
-        	INSERT INTO VoertuigInstructeur (VoertuigId, InstructeurId, DatumToekenning, DatumAangemaakt, DatumGewijzigd) VALUES (voertuigId, instructeurId, SYSDATE(), SYSDATE(), SYSDATE());
+			UPDATE VoertuigInstructeur SET IsActief = 0 WHERE VoertuigId = voertuig;
+        	INSERT INTO VoertuigInstructeur (VoertuigId, InstructeurId, DatumToekenning, DatumAangemaakt, DatumGewijzigd) VALUES (voertuig, instructeur, SYSDATE(), SYSDATE(), SYSDATE());
     COMMIT;
 END;

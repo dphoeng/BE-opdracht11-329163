@@ -18,7 +18,7 @@ class Instructeur
 
 	public function getVoertuigenByInstructeurId($id)
 	{
-		$this->db->query("SELECT * FROM `Voertuig` voe INNER JOIN `VoertuigInstructeur` vin ON vin.VoertuigId = voe.Id INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId WHERE vin.InstructeurId = :id ORDER BY typ.RijbewijsCategorie");
+		$this->db->query("SELECT voe.Kenteken, voe.Type, voe.Bouwjaar, voe.Brandstof, vin.VoertuigId, vin.InstructeurId, typ.TypeVoertuig, typ.RijbewijsCategorie, vin.IsActief FROM `Voertuig` voe INNER JOIN `VoertuigInstructeur` vin ON vin.VoertuigId = voe.Id INNER JOIN `TypeVoertuig` typ ON typ.Id = voe.TypeVoertuigId WHERE vin.InstructeurId = :id ORDER BY typ.RijbewijsCategorie");
 		$this->db->bind(":id", $id, PDO::PARAM_INT);
 		return $this->db->resultSet();
 	}
@@ -87,10 +87,11 @@ class Instructeur
 		return $this->db->execute();
 	}
 
-	public function setInstructeurInactief($id)
+	public function setInstructeurInactief($id, $active)
 	{
-		$this->db->query("CALL spSetInstructeurInactief(:instructeurId, 0);");
+		$this->db->query("CALL spSetInstructeurInactief(:instructeurId, :active);");
 		$this->db->bind(":instructeurId", $id, PDO::PARAM_INT);
+		$this->db->bind(":active", $active, PDO::PARAM_INT);
 		return $this->db->execute();
 	}
 }
