@@ -59,7 +59,7 @@ class Instructeurs extends Controller
 		$this->view("instructeurs/index", $data);
 	}
 
-	public function voertuigen($id = null, $delete = null)
+	public function voertuigen($id = null, $delete = null, $newId = null)
 	{
 		$rows = "";
 		$sterren = "";
@@ -70,10 +70,11 @@ class Instructeurs extends Controller
 
 		$instructeur = $this->instructeurModel->getInstructeurById($id);
 
-		if ($delete) {
-			$this->instructeurModel->removeInstructeurVoertuig($id, $delete);
+		if ($delete == "delete") {
+			$this->instructeurModel->removeInstructeurVoertuig($id, $newId);
 			$deleted = "Het door u geselecteerde voertuig is verwijderd";
 			header("Refresh:3; url=" . URLROOT . "/instructeurs/voertuigen/$id");
+		} else if ($delete == "setactive") {
 		}
 
 		if ($instructeur) {
@@ -90,7 +91,7 @@ class Instructeurs extends Controller
 			} else {
 				if ($record) {
 					foreach ($record as $value) {
-						$active = $value->IsActief == 1 ? "<img src=' " . URLROOT . "/img/approved.png'>" : "<a href=''><img src=' " . URLROOT . "/img/close.png'></a>";
+						$active = $value->IsActief == 1 ? "<img src=' " . URLROOT . "/img/approved.png'>" : "<a href='" . URLROOT . "/instructeurs/voertuigen/$id/setactive/$value->VoertuigId" . "'><img src=' " . URLROOT . "/img/close.png'></a>";
 						$rows .= "<tr>
 											<td>$value->TypeVoertuig</td>
 											<td>$value->Type</td>
@@ -99,7 +100,7 @@ class Instructeurs extends Controller
 											<td>$value->Brandstof</td>
 											<td>$value->RijbewijsCategorie</td>
 											<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
-											<td><a href='" . URLROOT . "/instructeurs/voertuigen/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+											<td><a href='" . URLROOT . "/instructeurs/voertuigen/$id/delete/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
 											<td>" . $active . "</td>
 									</tr>";
 					}
