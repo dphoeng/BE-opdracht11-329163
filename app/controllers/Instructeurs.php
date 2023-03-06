@@ -9,22 +9,34 @@ class Instructeurs extends Controller
 		$this->instructeurModel = $this->model('Instructeur');
 	}
 
-	public function index($id = null)
+	public function index($action = null, $id = null)
 	{
 		$rows = '';
 		$notification = '';
 
 		if ($id) {
 			$instructeur = $this->instructeurModel->getInstructeurById($id);
-			if ($instructeur->IsActief == 1) {
-				if ($this->instructeurModel->setInstructeurInactief($id, 0)) {
-					$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is ziek/met verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam is ziek/met verlof gemeld";
-					header("Refresh:3;url=" . URLROOT . "/instructeurs/");
+			if ($action == "ziekte") {
+				if ($instructeur->IsActief == 1) {
+					if ($this->instructeurModel->setInstructeurInactief($id, 0)) {
+						$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is ziek/met verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam is ziek/met verlof gemeld";
+						header("Refresh:3;url=" . URLROOT . "/instructeurs/");
+					}
+				} else {
+					// inactief (must be set to active again)
+					if ($this->instructeurModel->setInstructeurInactief($id, 1)) {
+						$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is beter/terug van verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam is beter/terug van verlof gemeld";
+						header("Refresh:3;url=" . URLROOT . "/instructeurs/");
+					}
 				}
-			} else {
-				// inactief (must be set to active again)
-				if ($this->instructeurModel->setInstructeurInactief($id, 1)) {
-					$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is beter/terug van verlof gemeld" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam  is beter/terug van verlof gemeld";
+			} else if ($action == "verwijderen") {
+				if ($instructeur->IsActief == 1) {
+					if ($this->instructeurModel->deleteInstructeur($id)) {
+						$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam is definitief verwijdert en al zijn eerder toegewezen voertuigen zijn vrijgegeven" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam is definitief verwijdert en al zijn eerder toegewezen voertuigen zijn vrijgegeven";
+						header("Refresh:3;url=" . URLROOT . "/instructeurs/");
+					}
+				} else {
+					$notification = $instructeur->Tussenvoegsel ? "Instructeur $instructeur->Voornaam $instructeur->Tussenvoegsel $instructeur->Achternaam kan niet definitief worden verwijdert, verander eerst de status ziekte/verlof" : "Instructeur $instructeur->Voornaam $instructeur->Achternaam kan niet definitief worden verwijdert, verander eerst de status ziekte/verlof";
 					header("Refresh:3;url=" . URLROOT . "/instructeurs/");
 				}
 			}
@@ -47,7 +59,8 @@ class Instructeurs extends Controller
 									<td>$value->DatumInDienst</td>
 									<td>$sterren</td>
 									<td><a href='" . URLROOT . "/instructeurs/voertuigen/$value->Id'><img src='" . URLROOT . "/img/book.png' alt='book'></a></td>
-									<td><a href='" . URLROOT . "/instructeurs/index/$value->Id'><img src='" . URLROOT . "/img/" . $image . "' alt='book'></a></td>
+									<td><a href='" . URLROOT . "/instructeurs/index/ziekte/$value->Id'><img src='" . URLROOT . "/img/" . $image . "' alt='book'></a></td>
+									<td><a href='" . URLROOT . "/instructeurs/index/verwijderen/$value->Id'><img src='" . URLROOT . "/img/remove.png' alt='book'></a></td>
 							</tr>";
 			}
 		}
@@ -102,7 +115,7 @@ class Instructeurs extends Controller
 											<td>$value->Brandstof</td>
 											<td>$value->RijbewijsCategorie</td>
 											<td><a href='" . URLROOT . "/instructeurs/edit/$id/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
-											<td><a href='" . URLROOT . "/instructeurs/voertuigen/$id/delete/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/cross.png" . "'></a></td>
+											<td><a href='" . URLROOT . "/instructeurs/voertuigen/$id/delete/$value->VoertuigId" . "'><img src='" . URLROOT . "/img/remove.png" . "'></a></td>
 											<td>" . $active . "</td>
 									</tr>";
 					}

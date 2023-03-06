@@ -19,6 +19,7 @@ $data = $data ?? [];
 			<th>Aantal sterren</th>
 			<th>Voertuigen</th>
 			<th>Ziekte/Verlof</th>
+			<th>Verwijderen</th>
 		</thead>
 		<tbody>
 			<?= $data["rows"]; ?>
